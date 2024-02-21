@@ -14,8 +14,23 @@ class PRACTICA1_API AParticle : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AParticle();
+	void InitializeValues(FVector position, FVector velocity, FVector acceleration, float lifetime, float size, float mass);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class USceneComponent* sceneComp;
+	class UStaticMeshComponent* staticMeshComponent;
+
+	/*USTRUCT()
+		struct ParticleValues
+	{
+		GENERATED_BODY();
+
+		FVector position;
+		FVector velocity;
+		FVector acceleration;
+		float lifetime;
+		float size;
+		float mass;
+	};*/
 
 protected:
 	// Called when the game starts or when spawned
@@ -28,12 +43,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	FVector position;
-	FVector velocity;
-	FVector acceleration;
-	float lifeTime;
-	float size;
-	float mass;
+	FVector _position;
+	FVector _velocity;
+	FVector _acceleration;
+	float _lifetime;
+	float _size;
+	float _mass;
 
 	void Update(float DeltaTime);
 

@@ -5,6 +5,7 @@
 #include "Particle.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/BoxComponent.h"
 #include "ParticleSpawner.generated.h"
 
 UCLASS()
@@ -15,17 +16,41 @@ class PRACTICA1_API AParticleSpawner : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AParticleSpawner();
+	void SpawnParticle();
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class USceneComponent* sceneComp;
+	class UBoxComponent* spawnVolume;
 
+	UPROPERTY(EditAnywhere)
+	class TSubclassOf<AParticle> particleToSpawn;
 
+	// Emission rate per second
+	UPROPERTY(EditAnywhere)
+	float emissionRate;
+
+	UPROPERTY(EditAnywhere)
+		FVector position;
+
+	UPROPERTY(EditAnywhere)
+		FVector velocity;
+
+	UPROPERTY(EditAnywhere)
+		FVector acceleration;
+
+	UPROPERTY(EditAnywhere)
+		float lifetime;
+
+	UPROPERTY(EditAnywhere)
+		float size;
+
+	UPROPERTY(EditAnywhere)
+		float mass;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	void SpawnParticle();
 
 
 public:	
@@ -35,4 +60,6 @@ public:
 
 private:
 	float timer;
+	//float emissionRate;
+	TArray<AParticle*> particles;
 };
