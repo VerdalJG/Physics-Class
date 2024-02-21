@@ -14,13 +14,14 @@ class PRACTICA1_API AParticle : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AParticle();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class USceneComponent* sceneComp;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class USceneComponent* sceneComp;
+
 
 public:	
 	// Called every frame
