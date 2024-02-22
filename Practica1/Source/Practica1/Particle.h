@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Math/UnrealMathUtility.h"
 #include "GameFramework/Actor.h"
 #include "Particle.generated.h"
 
@@ -14,7 +15,7 @@ class PRACTICA1_API AParticle : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AParticle();
-	void InitializeValues(FVector position, FVector velocity, FVector acceleration, float lifetime, float size, float mass);
+	void InitializeValues(FVector position, FVector velocity, FVector acceleration, float lifetime, float size, float mass, FColor color);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UStaticMeshComponent* staticMeshComponent;
@@ -49,6 +50,7 @@ private:
 	float _lifetime;
 	float _size;
 	float _mass;
+	FColor _color;
 
 	void Update(float DeltaTime);
 

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Particle.h"
+#include "Math/UnrealMathUtility.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
@@ -27,10 +28,7 @@ public:
 
 	// Emission rate per second
 	UPROPERTY(EditAnywhere)
-	float emissionRate;
-
-	UPROPERTY(EditAnywhere)
-		FVector position;
+	float emissionRate = 1.0f;
 
 	UPROPERTY(EditAnywhere)
 		FVector velocity;
@@ -42,6 +40,9 @@ public:
 		float lifetime;
 
 	UPROPERTY(EditAnywhere)
+		FColor color;
+
+	UPROPERTY(EditAnywhere)
 		float size;
 
 	UPROPERTY(EditAnywhere)
@@ -50,8 +51,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
-
 
 public:	
 	// Called every frame
@@ -59,7 +58,9 @@ public:
 
 
 private:
+
+	FVector GetPositionInBounds(FVector initialPosition, UBoxComponent* box);
+
 	float timer;
-	//float emissionRate;
 	TArray<AParticle*> particles;
 };

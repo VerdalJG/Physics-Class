@@ -2,7 +2,7 @@
 
 
 #include "Particle.h"
-#include "Math/UnrealMathUtility.h"
+
 
 // Sets default values
 AParticle::AParticle()
@@ -17,45 +17,42 @@ AParticle::AParticle()
 	staticMeshComponent->SetupAttachment(RootComponent);
 }
 
-void AParticle::InitializeValues(FVector pos, FVector velocity, FVector acceleration, float lifetime, float size, float mass)
+void AParticle::InitializeValues(FVector pos, FVector velocity, FVector acceleration, float lifetime, float size, float mass, FColor color)
 {
-	_position = FVector(
-		FMath::RandRange(pos.X - 200, pos.X + 200),
-		FMath::RandRange(pos.Y - 200, pos.Y + 200),
-		FMath::RandRange(pos.Z - 200, pos.Z + 200));
-
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Not spawned"));
-	}
-	SetActorLocation(_position);
+	_position = pos;
+	_velocity = velocity;
+	_acceleration = acceleration;
+	_lifetime = lifetime;
+	_size = size;
+	_mass = mass;
+	
+	//staticMeshComponent->SetVectorParameterValueOnMaterials("m_Color", color);
 }
 
 // Called when the game starts or when spawned
 void AParticle::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void AParticle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//Update(DeltaTime);
+	Update(DeltaTime);
 }
 
 void AParticle::Update(float DeltaTime)
 {
-	_position += _velocity * DeltaTime;
-	_velocity += _acceleration * DeltaTime;
-	//acceleration += 2 * DeltaTime / mass;
 	_lifetime -= DeltaTime;
 	if (_lifetime <= 0)
 	{
 		GetWorld()->DestroyActor(this);
 	}
 
-
+	//acceleration += 2 * DeltaTime / mass;
+	_velocity += _acceleration * DeltaTime;
+	_position += _velocity * DeltaTime;
+	SetActorLocation(_position);
 }
 

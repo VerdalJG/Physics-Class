@@ -33,14 +33,18 @@ void AParticleSpawner::Tick(float DeltaTime)
 	}
 }
 
+
+
 void AParticleSpawner::SpawnParticle()
 {
-	FVector pos = GetActorLocation();
+	FVector initialPosition = GetActorLocation();
+	
+	FVector particlePosition = GetPositionInBounds(initialPosition, spawnVolume);
 	FRotator rotation = GetActorRotation();
-	AParticle* particle = GetWorld()->SpawnActor<AParticle>(particleToSpawn, pos, rotation);
+	AParticle* particle = GetWorld()->SpawnActor<AParticle>(particleToSpawn, particlePosition, rotation);
 	if (particle != nullptr)
 	{
-		particle->InitializeValues(position, velocity, acceleration, lifetime, size, mass);
+		particle->InitializeValues(particlePosition, velocity, acceleration, lifetime, size, mass, color);
 		particles.Add(particle);
 		if (GEngine)
 		{
@@ -55,5 +59,16 @@ void AParticleSpawner::SpawnParticle()
 		}
 	}
 	
+}
+
+FVector AParticleSpawner::GetPositionInBounds(FVector initialPosition, UBoxComponent* box)
+{
+	FVector boxExtents = box->GetUnscaledBoxExtent();
+	FVector result = FVector(
+		FMath::RandRange(initialPosition.X - boxExtents.X, initialPosition.X + boxExtents.X),
+		FMath::RandRange(initialPosition.Y - boxExtents.Y, initialPosition.Y + boxExtents.Y),
+		FMath::RandRange(initialPosition.Z - boxExtents.Z, initialPosition.Z + boxExtents.Z)
+	);
+	return result;
 }
 
