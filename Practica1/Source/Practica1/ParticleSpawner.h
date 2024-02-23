@@ -19,7 +19,6 @@ public:
 	AParticleSpawner();
 	void SpawnParticle();
 
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UBoxComponent* spawnVolume;
 

@@ -8,7 +8,7 @@ AParticleSpawner::AParticleSpawner()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	RootComponent = RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
 	spawnVolume = CreateDefaultSubobject<UBoxComponent>(TEXT("SpawnVolume"));
 	spawnVolume->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
