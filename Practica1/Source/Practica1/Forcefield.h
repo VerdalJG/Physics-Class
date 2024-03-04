@@ -23,21 +23,21 @@ public:
 	FVector force = FVector(300,0,0);
 
 	UFUNCTION()
-	void OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* otherActor, UPrimitiveComponent* otherComp, 
-		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	UFUNCTION()
-	void OnBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* otherActor, UPrimitiveComponent* otherComp, int32 OtherBodyIndex);
+	void ActorOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	void ActorEndOverlap(AActor* OverlappedActor, AActor* OtherActor);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void ApplyImpulse(UPrimitiveComponent* otherComp);
-	void ApplyForce(UPrimitiveComponent* otherComp);
+    
+	
+
 
 private:
 	TArray<UPrimitiveComponent*> overlappedComponents;

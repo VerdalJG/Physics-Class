@@ -20,8 +20,8 @@ AParticle::AParticle()
 void AParticle::InitializeValues(FVector pos, FVector velocity, FVector acceleration, float lifetime, float size, float mass, FColor color)
 {
 	_position = pos;
-	_velocity = velocity;
-	_acceleration = acceleration;
+	_velocity = velocity * 100;
+	_acceleration = acceleration * 100;
 	_lifetime = lifetime;
 	_size = size;
 	_mass = mass;
@@ -42,6 +42,21 @@ void AParticle::Tick(float DeltaTime)
 	Update(DeltaTime);
 }
 
+void AParticle::SetVelocity(FVector value)
+{
+	_velocity = value;
+}
+
+void AParticle::ApplyForce(FVector force)
+{
+	_currentForce = force;
+}
+
+void AParticle::StopApplyForce()
+{
+	_currentForce = FVector(0,0,0);
+}
+
 void AParticle::Update(float DeltaTime)
 {
 	_lifetime -= DeltaTime;
@@ -50,7 +65,7 @@ void AParticle::Update(float DeltaTime)
 		GetWorld()->DestroyActor(this);
 	}
 
-	//acceleration += 2 * DeltaTime / mass;
+	_acceleration = 2 * _currentForce * DeltaTime;
 	_velocity += _acceleration * DeltaTime;
 	_position += _velocity * DeltaTime;
 	SetActorLocation(_position);

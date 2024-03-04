@@ -30,22 +30,22 @@ public:
 	float emissionRate = 1.0f;
 
 	UPROPERTY(EditAnywhere)
-		FVector velocity;
+	FVector velocity = FVector(1, 1, 1);
 
 	UPROPERTY(EditAnywhere)
-		FVector acceleration;
+		FVector acceleration = FVector(1, 1, 1);
 
 	UPROPERTY(EditAnywhere)
-		float lifetime;
+		float lifetime = 5.0f;
 
 	UPROPERTY(EditAnywhere)
 		FColor color;
 
 	UPROPERTY(EditAnywhere)
-		float size;
+		float size = 5.0f;
 
 	UPROPERTY(EditAnywhere)
-		float mass;
+		float mass = 200.0f;
 
 protected:
 	// Called when the game starts or when spawned
@@ -54,6 +54,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
 
 
 private:

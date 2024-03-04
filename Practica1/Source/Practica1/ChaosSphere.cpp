@@ -25,6 +25,5 @@ void AChaosSphere::BeginPlay()
 void AChaosSphere::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 

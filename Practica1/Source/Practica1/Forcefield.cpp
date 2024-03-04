@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "Forcefield.h"
+#include "Particle.h"
+
 
 // Sets default values
 AForcefield::AForcefield()
@@ -22,8 +23,8 @@ AForcefield::AForcefield()
 void AForcefield::BeginPlay()
 {
 	Super::BeginPlay();
-	boxCollider->OnComponentBeginOverlap.AddDynamic(this, &AForcefield::OnBoxBeginOverlap);
-	boxCollider->OnComponentEndOverlap.AddDynamic(this, &AForcefield::OnBoxEndOverlap);
+	OnActorBeginOverlap.AddDynamic(this, &AForcefield::ActorOverlap);
+	OnActorEndOverlap.AddDynamic(this, &AForcefield::ActorEndOverlap);
 }
 
 // Called every frame
@@ -33,31 +34,42 @@ void AForcefield::Tick(float DeltaTime)
 
 	for (UPrimitiveComponent* comp : overlappedComponents)
 	{
-		ApplyForce(comp);
+		//ApplyForce(comp);
+	}
+
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("BeginOverlap"));
 	}
 	
 }
 
-void AForcefield::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, 
-	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+
+void AForcefield::ActorOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
-	overlappedComponents.Add(OtherComp);
-	//ApplyImpulse(OtherComp);
+	/*if (OtherActor->IsA(AParticle::StaticClass))
+	{
+		
+	}*/
+
+	Cast<AParticle>(OtherActor)->ApplyForce(force);
+
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("BeginOverlap"));
+	}
 }
 
-void AForcefield::OnBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, 
-	int32 OtherBodyIndex)
+void AForcefield::ActorEndOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
-	overlappedComponents.Remove(OtherComp);
-}
+	/*if (OtherActor->IsA(AParticle::StaticClass))
+	{
+		Cast<AParticle>(OtherActor)->StopApplyForce();
+	}*/
 
-void AForcefield::ApplyImpulse(UPrimitiveComponent* comp)
-{
-	comp->AddImpulse(force);
-}
-
-void AForcefield::ApplyForce(UPrimitiveComponent* comp)
-{
-	comp->AddForce(force);
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("EndOverlap"));
+	}
 }
 
